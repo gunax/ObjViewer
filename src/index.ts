@@ -1,1 +1,4 @@
-document.getElementsByTagName('h1')[0].innerHTML = "Hello, TypeScript+webpack World!";
+import {OpenGLCanvas as Canvas} from "./opengl_canvas";
+
+let canvas = new Canvas();
+
