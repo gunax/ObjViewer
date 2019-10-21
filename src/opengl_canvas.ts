@@ -1,19 +1,21 @@
 import { vsSource, fsSource } from "./Shaders";
 import { mat4 } from "./gl-matrix";
+import { Model } from "./Model";
 
 export class OpenGLCanvas {
     canvas: HTMLCanvasElement;
     gl: WebGLRenderingContext;
     shaderProgram: WebGLProgram;
     programInfo: any;
-    buffer: WebGLBuffer;
+    buffers: any;
+    my_model : Model;
     constructor() {
         this.canvas = <HTMLCanvasElement>document.getElementById('glCanvas');
         this.gl = this.canvas.getContext('webgl');
         this.prepare();
         this.programInfo = this.initShaders();
-        this.buffer = this.initBuffer();
-        this.render(this.gl, this.programInfo, this.buffer);
+        this.buffers = this.initBuffer();
+        this.render(this.gl, this.programInfo, this.buffers);
     }
 
     prepare() {
@@ -65,37 +67,66 @@ export class OpenGLCanvas {
     }
 
     initBuffer() {
-        // Create a buffer for the square's positions.
-
-        const positionBuffer = this.gl.createBuffer();
-
-        // Select the positionBuffer as the one to apply buffer
-        // operations to from here out.
-
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
-
-        // Now create an array of positions for the square.
 
         const positions = [
-            -1.0, 1.0,
-            1.0, 1.0,
-            -1.0, -1.0,
-            1.0, -1.0,
+            // Front face
+            -1.0, -1.0,  1.0,
+             1.0, -1.0,  1.0,
+             1.0,  1.0,  1.0,
+            -1.0,  1.0,  1.0,
+            
+            // Back face
+            -1.0, -1.0, -1.0,
+            -1.0,  1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0, -1.0, -1.0,
+            
+            // Top face
+            -1.0,  1.0, -1.0,
+            -1.0,  1.0,  1.0,
+             1.0,  1.0,  1.0,
+             1.0,  1.0, -1.0,
+            
+            // Bottom face
+            -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0, -1.0,  1.0,
+            -1.0, -1.0,  1.0,
+            
+            // Right face
+             1.0, -1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0,  1.0,  1.0,
+             1.0, -1.0,  1.0,
+            
+            // Left face
+            -1.0, -1.0, -1.0,
+            -1.0, -1.0,  1.0,
+            -1.0,  1.0,  1.0,
+            -1.0,  1.0, -1.0,
+          ];
+
+        const indices = [
+            0, 1, 2, 0, 2, 3,    // front
+            4, 5, 6, 4, 6, 7,    // back
+            8, 9, 10, 8, 10, 11,   // top
+            12, 13, 14, 12, 14, 15,   // bottom
+            16, 17, 18, 16, 18, 19,   // right
+            20, 21, 22, 20, 22, 23,   // left
         ];
 
-        // Now pass the list of positions into WebGL to build the
-        // shape. We do this by creating a Float32Array from the
-        // JavaScript array, then use it to fill the current buffer.
+        this.my_model = new Model(new Float32Array(positions), new Uint16Array(indices));
+        this.my_model.load(this.gl);
 
-        this.gl.bufferData(this.gl.ARRAY_BUFFER,
-            new Float32Array(positions),
-            this.gl.STATIC_DRAW);
-
-        return positionBuffer;
+        return {
+            position: this.my_model.Buffers.vertices,
+            //color: colorBuffer,
+            indices: this.my_model.Buffers.vertices
+        };
     }
 
-    render(gl: WebGLRenderingContext, programInfo: any, buffers: WebGLBuffer) {
-        gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+    render(gl: WebGLRenderingContext, programInfo: any, buffers: any) {
+        gl.clearColor(0.3, 0.1, 0.1, 1.0);  // Clear to black, fully opaque
         gl.clearDepth(1.0);                 // Clear everything
         gl.enable(gl.DEPTH_TEST);           // Enable depth testing
         gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
@@ -139,13 +170,13 @@ export class OpenGLCanvas {
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute.
         {
-            const numComponents = 2;  // pull out 2 values per iteration
+            const numComponents = 3;  // pull out 2 values per iteration
             const type = gl.FLOAT;    // the data in the buffer is 32bit floats
             const normalize = false;  // don't normalize
             const stride = 0;         // how many bytes to get from one set of values to the next
             // 0 = use type and numComponents above
             const offset = 0;         // how many bytes inside the buffer to start from
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffers);
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
             gl.vertexAttribPointer(
                 programInfo.attribLocations.vertexPosition,
                 numComponents,
@@ -174,8 +205,9 @@ export class OpenGLCanvas {
 
         {
             const offset = 0;
-            const vertexCount = 4;
-            gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+            const vertexCount = 36;
+            const type = gl.UNSIGNED_SHORT;
+            gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
         }
     }
 }  
