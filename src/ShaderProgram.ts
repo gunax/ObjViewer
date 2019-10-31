@@ -1,9 +1,12 @@
+import { Camera } from "./Camera";
+
 class ShaderProgram {
 
     private gl : WebGLRenderingContext;
     private vShader : WebGLShader;
     private fShader : WebGLShader;
     private program : WebGLProgram;
+    private camera : Camera;
 
     constructor(gl : WebGLRenderingContext, vsource : string, fsource : string) {
         this.gl = gl;

@@ -11,8 +11,8 @@ export class OpenGLCanvas {
     shaderProgram : ShaderProgram;
     my_model : Model;
 
-    constructor() {
-        this.canvas = <HTMLCanvasElement>document.getElementById('glCanvas');
+    constructor(canvas : HTMLElement) {
+        this.canvas = <HTMLCanvasElement>canvas;
         this.gl = this.canvas.getContext('webgl');
         this.prepare();
         this.shaderProgram = new ShaderProgram(this.gl, vsSource, fsSource);
