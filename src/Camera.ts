@@ -28,4 +28,15 @@ export class Camera {
             this.modelView,
             [x, y, z]);
     }
+
+    //4:3 aspect ratio camera, backed up 8 units
+    static getDefaultCamera() {
+        return new Camera(45 * Math.PI / 180,
+            4.0 / 3.0,
+            0.1,
+            100.0,
+            0.0,
+            0.0,
+            -8.0);
+    }
 }

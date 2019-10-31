@@ -42,13 +42,8 @@ export class OpenGLCanvas {
         // Clear the canvas before we start drawing on it.
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        let camera = new Camera(45 * Math.PI / 180,
-            gl.canvas.width / gl.canvas.height,
-            0.1,
-            100.0,
-            0,
-            0.3,
-            -8.0);
+        let camera = Camera.getDefaultCamera();
+        camera.translate(0.1, 0.5, 0.0); //move the camera off-center a bit for better viewing
 
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute.
@@ -72,7 +67,6 @@ export class OpenGLCanvas {
         }
 
         // Tell WebGL to use our program when drawing
-
         gl.useProgram(this.shaderProgram.getProgram());
 
         // Set the shader uniforms
