@@ -1,11 +1,13 @@
+import {ModelData} from "./ModelData"
+
 export class Model {
     vertices : Float32Array;
     indices : Uint16Array;
     Buffers : BufferSet;
 
-    constructor(v : Float32Array, i : Uint16Array) {
-        this.vertices = v;
-        this.indices = i;
+    constructor(md : ModelData) {
+        this.vertices = md.positions;
+        this.indices = md.indices;
     }
 
     load(gl : WebGLRenderingContext) {
