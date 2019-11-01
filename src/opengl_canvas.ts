@@ -32,7 +32,7 @@ export class OpenGLCanvas {
 
     prepare() {
         if (this.gl === null) {
-            document.body.textContent = 'WebGL is not avaiulable';
+            document.body.textContent = 'WebGL is not available';
         }
     }
 
@@ -54,7 +54,7 @@ export class OpenGLCanvas {
 
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute.
-    {
+    
             const numComponents = 3;  // pull out 2 values per iteration
             const type = this.gl.FLOAT;    // the data in the buffer is 32bit floats
             const normalize = false;  // don't normalize
@@ -66,12 +66,12 @@ export class OpenGLCanvas {
                 this.shaderProgram.getProgramInfo().attribLocations.vertexPosition,
                 numComponents,
                 type,
-                normalize,
+                normalize, 
                 stride,
                 offset);
             this.gl.enableVertexAttribArray(
                 this.shaderProgram.getProgramInfo().attribLocations.vertexPosition);
-        }
+        
 
         // Tell WebGL to use our program when drawing
         this.gl.useProgram(this.shaderProgram.getProgram());
