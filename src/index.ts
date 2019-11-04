@@ -13,6 +13,8 @@ class ObjViewer {
     private shaderProgram : ShaderProgram;
     private model : Model;
 
+    private drag = false;
+
     constructor() {
         let canvasElement = document.getElementById('glCanvas');
         this.canvas = new Canvas(canvasElement);
@@ -24,7 +26,11 @@ class ObjViewer {
 
         this.model = this.initModel();
 
-        canvasElement.addEventListener("wheel", this.zoom);
+        canvasElement.addEventListener("wheel", this.mouseZoom);
+        canvasElement.addEventListener('mousemove', this.mouseMove);
+        canvasElement.addEventListener('mousedown', this.mouseDown);
+        canvasElement.addEventListener('mouseup', this.mouseUp);
+        canvasElement.addEventListener('mouseleave', this.mouseUp);
 
         this.renderer = new Renderer(this.camera, this.canvas, this.model, this.shaderProgram);
         this.renderer.render();
@@ -37,10 +43,26 @@ class ObjViewer {
         return model;
     }
 
-    private zoom = (event : Event) => {
+    private mouseZoom = (event : Event) => {
         let wheelEvent = <WheelEvent> event;
         this.camera.translate(0.0, 0.0, wheelEvent.deltaY*0.2);
         this.renderer.render();
+    }
+
+    private mouseMove = (event : Event) => {
+        let mouseEvent = <MouseEvent> event;
+        if (this.drag) {
+            this.camera.rotate(mouseEvent.movementX * 0.005, mouseEvent.movementY * 0.005, 0.0);
+            this.renderer.render();
+        }
+    }
+
+    private mouseDown = (event : Event) => {
+        this.drag = true;
+    }
+
+    private mouseUp = (event : Event) => {
+        this.drag = false;
     }
 
 }

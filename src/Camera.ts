@@ -23,6 +23,18 @@ export class Camera {
             [xTrans, yTrans, zTrans]);  // amount to translate
     }
 
+    public rotate(x : number, y : number, z : number) {
+        mat4.rotateX(this.modelView,
+            this.modelView,
+            x);
+        mat4.rotateY(this.modelView,
+            this.modelView,
+            y);
+        mat4.rotateZ(this.modelView,
+            this.modelView,
+            z);
+        }
+
     public translate(x : number, y : number, z : number) {
         mat4.translate(this.modelView,
             this.modelView,
@@ -34,9 +46,9 @@ export class Camera {
         return new Camera(45 * Math.PI / 180,
             4.0 / 3.0,
             0.1,
-            100.0,
-            0.0,
-            0.0,
-            -8.0);
+            100.0, 
+            0.0, //x
+            0.0, //y
+            -8.0); //z
     }
 }
