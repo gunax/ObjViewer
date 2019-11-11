@@ -23,6 +23,13 @@ export class Camera {
             [xTrans, yTrans, zTrans]);  // amount to translate
     }
 
+
+    public zoom(z : number) {
+        mat4.scale(this.modelView,
+            this.modelView,
+            [z, z, z]);
+    }
+
     public rotate(x : number, y : number, z : number) {
         mat4.rotateX(this.modelView,
             this.modelView,

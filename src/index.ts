@@ -6,6 +6,17 @@ import { ExampleModels } from "./ModelData";
 import { ShaderProgram } from "./ShaderProgram";
 import { vsSource, fsSource } from "./Shaders";
 
+/* zoom speed, as a scaling portion per mousewheel click
+ie 0.20 = increase/decrease size by 20% each click */
+const ZOOM_SPEED = 0.10;
+
+/* Sensitivity of dragging the mouse to rotate the object.
+    Probably has to be adjusted if the canvas size is changed,
+    as this relates the pixels moved by the user mouse to the 
+    model change itself. I found fractions close to 0 to be good.
+    */
+const ROTATE_SPEED = 0.005;
+
 class ObjViewer {
     private canvas : Canvas;
     private camera : Camera;
@@ -45,14 +56,16 @@ class ObjViewer {
 
     private mouseZoom = (event : Event) => {
         let wheelEvent = <WheelEvent> event;
-        this.camera.translate(0.0, 0.0, wheelEvent.deltaY*0.2);
+        this.camera.zoom(wheelEvent.deltaY * ZOOM_SPEED);
         this.renderer.render();
     }
 
     private mouseMove = (event : Event) => {
         let mouseEvent = <MouseEvent> event;
         if (this.drag) {
-            this.camera.rotate(mouseEvent.movementX * 0.005, mouseEvent.movementY * 0.005, 0.0);
+            this.camera.rotate(mouseEvent.movementX * ROTATE_SPEED, 
+                mouseEvent.movementY * ROTATE_SPEED, 
+                0.0);
             this.renderer.render();
         }
     }
