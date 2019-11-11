@@ -23,12 +23,11 @@ export class Renderer {
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute.
     
-            const numComponents = 3;  // pull out 2 values per iteration
+            const numComponents = 3;  //values per iteration
             const type = gl.FLOAT;    // the data in the buffer is 32bit floats
-            const normalize = false;  // don't normalize
-            const stride = 0;         // how many bytes to get from one set of values to the next
-            // 0 = use type and numComponents above
-            const offset = 0;         // how many bytes inside the buffer to start from
+            const normalize = false;
+            const stride = 0;
+            const offset = 0;
             gl.bindBuffer(gl.ARRAY_BUFFER, this.model.Buffers.vertices);
             gl.vertexAttribPointer(
                 this.program.getProgramInfo().attribLocations.vertexPosition,
@@ -40,12 +39,9 @@ export class Renderer {
             gl.enableVertexAttribArray(
                 this.program.getProgramInfo().attribLocations.vertexPosition);
         
-
-        // Tell WebGL to use our program when drawing
         gl.useProgram(this.program.getProgram());
 
         // Set the shader uniforms
-
         gl.uniformMatrix4fv(
             this.program.getProgramInfo().uniformLocations.projectionMatrix,
             false,
