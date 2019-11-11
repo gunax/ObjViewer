@@ -7,7 +7,8 @@ import { ShaderProgram } from "./ShaderProgram";
 import { vsSource, fsSource } from "./Shaders";
 
 /* zoom speed, as a scaling portion per mousewheel click
-ie 0.20 = increase/decrease size by 20% each click */
+ie 0.20 = increase/decrease size by 20% each click.
+Keep 0.0 < ZOOM_SPEED < 1.0 */
 const ZOOM_SPEED = 0.10;
 
 /* Sensitivity of dragging the mouse to rotate the object.
@@ -24,6 +25,11 @@ class ObjViewer {
     private shaderProgram : ShaderProgram;
     private model : Model;
 
+    /* There is not a native drag listener, so instead we have to combine 
+    the mouse move & mouse down/up events. Whenever the mouse goes down, 
+    this boolean should be set to true. Then when mouse is moved, we can check
+    if we are currently dragging based on this boolean. Should be reset to false
+    whenever the mouse goes back up or we leave the screen.*/
     private drag = false;
 
     constructor() {
@@ -56,7 +62,21 @@ class ObjViewer {
 
     private mouseZoom = (event : Event) => {
         let wheelEvent = <WheelEvent> event;
-        this.camera.zoom(wheelEvent.deltaY * ZOOM_SPEED);
+
+        /* The zoom function needs to take in a scale ratio (eg. scale to 80%)
+        but since the wheelEvent works on positive/negative
+        values, we have to do a bit of conversion.
+        For now I am just zooming by ZOOM_SPEED whether the wheel went
+        in or out. At some point we may want to actually use the deltaY value
+        as this would actually take the user's wheel sensitivity into account */
+
+        if (wheelEvent.deltaY > 0.0) {
+            this.camera.zoom(1.0 + ZOOM_SPEED);
+        }
+        else {
+            this.camera.zoom(1.0 - ZOOM_SPEED);
+        }
+        
         this.renderer.render();
     }
 
