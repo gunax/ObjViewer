@@ -6,15 +6,18 @@ module.exports = {
     entry: './src/index.ts',
     module: {
         rules: [
+            {   test: /\.css$/, 
+                use: ['style-loader', 'css-loader'],
+                exclude: /node_modules/},
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                use: ['ts-loader'],
                 exclude: /node_modules/
             }
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js', '.css']
     },
     devtool: 'inline-source-map',
     devServer: {

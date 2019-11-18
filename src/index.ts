@@ -4,7 +4,8 @@ import { Renderer } from "./Renderer";
 import { Model } from "./Model";
 import { ExampleModels } from "./ModelData";
 import { ShaderProgram } from "./ShaderProgram";
-import { vsSource, fsSource } from "./Shaders";
+import { vsSource, fsSource } from "./Shaders"; 
+import "./assets/style.css";
 
 /* zoom speed, as a scaling portion per mousewheel click
 ie 0.20 = increase/decrease size by 20% each click.
@@ -12,10 +13,9 @@ Keep 0.0 < ZOOM_SPEED < 1.0 */
 const ZOOM_SPEED = 0.10;
 
 /* Sensitivity of dragging the mouse to rotate the object.
-    Probably has to be adjusted if the canvas size is changed,
-    as this relates the pixels moved by the user mouse to the 
-    model change itself. I found fractions close to 0 to be good.
-    */
+Probably has to be adjusted if the canvas size is changed,
+as this relates the pixels moved by the user mouse to the 
+model change itself. I found fractions close to 0 to be good. */
 const ROTATE_SPEED = 0.005;
 
 class ObjViewer {
