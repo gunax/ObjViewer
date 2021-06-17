@@ -9,7 +9,7 @@ All you need to get started is [Node.js](https://nodejs.org/) and [npm](https://
 ## Install
 
 ```
-git clone https://https://github.com/gunax/ObjViewer.git .
+git clone https://github.com/gunax/ObjViewer.git .
 ```
 
 Then install dependencies:
