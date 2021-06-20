@@ -60,6 +60,12 @@ class ObjViewer {
         return model;
     }
 
+    reset() {
+        this.camera = Camera.getDefaultCamera();
+        this.renderer = new Renderer(this.camera, this.canvas, this.model, this.shaderProgram);
+        this.renderer.render();
+    }
+
     private mouseZoom = (event : Event) => {
         let wheelEvent = <WheelEvent> event;
 
