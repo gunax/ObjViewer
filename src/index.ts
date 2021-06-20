@@ -34,10 +34,9 @@ class ObjViewer {
 
     constructor() {
         let canvasElement = document.getElementById('glCanvas');
+        let resetButton = document.getElementById('resetCamera');
         this.canvas = new Canvas(canvasElement);
-
-        this.camera = Camera.getDefaultCamera();
-        this.camera.translate(0.5, 0.5, 0.0); //move the camera off-center a bit for better viewing
+        this.camera = this.createCamera();
 
         this.shaderProgram = new ShaderProgram(this.canvas.gl, vsSource, fsSource);
 
@@ -48,6 +47,8 @@ class ObjViewer {
         canvasElement.addEventListener('mousedown', this.mouseDown);
         canvasElement.addEventListener('mouseup', this.mouseUp);
         canvasElement.addEventListener('mouseleave', this.mouseUp);
+
+        resetButton.addEventListener('click', this.reset);
 
         this.renderer = new Renderer(this.camera, this.canvas, this.model, this.shaderProgram);
         this.renderer.render();
@@ -60,10 +61,17 @@ class ObjViewer {
         return model;
     }
 
-    reset() {
-        this.camera = Camera.getDefaultCamera();
+    private reset = () => {
+        this.camera = this.createCamera();
         this.renderer = new Renderer(this.camera, this.canvas, this.model, this.shaderProgram);
         this.renderer.render();
+    }
+
+    private createCamera = () => {
+        const camera = Camera.getDefaultCamera();
+        camera.translate(0.5, 0.5, 0.0); //move the camera off-center a bit for better viewing
+
+        return camera;
     }
 
     private mouseZoom = (event : Event) => {
