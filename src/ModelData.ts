@@ -38,12 +38,12 @@ const cubeExample = {
   ]),
 
 indices : new Uint16Array([
-    0, 1, 2, 0, 2, 3,    // front
-    4, 5, 6, 4, 6, 7,    // back
-    8, 9, 10, 8, 10, 11,   // top
-    16, 17, 18, 16, 18, 19,   // right
-    20, 21, 22, 20, 22, 23,   // left
-    12, 13, 14, 12, 14, 15,   // bottom
+    // Front face edges
+    0, 1,  1, 2,  2, 3,  3, 0,
+    // Back face edges
+    4, 7,  7, 6,  6, 5,  5, 4,
+    // Connecting edges (front to back)
+    0, 4,  1, 7,  2, 6,  3, 5,
 ]) };
 
 const ExampleModels = {cube : cubeExample};

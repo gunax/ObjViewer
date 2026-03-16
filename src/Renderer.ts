@@ -53,9 +53,9 @@ export class Renderer {
 
         {
             const offset = 0;
-            const vertexCount = 36;
+            const vertexCount = 24;
             const type = gl.UNSIGNED_SHORT;
-            gl.drawElements(gl.LINE_STRIP, vertexCount, type, offset);
+            gl.drawElements(gl.LINES, vertexCount, type, offset);
         }
     }
 }
