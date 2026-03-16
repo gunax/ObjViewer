@@ -1,4 +1,4 @@
-import {mat4} from "./gl-matrix";
+import {mat4} from "gl-matrix";
 
 export class Camera {
     readonly projection : any;

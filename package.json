@@ -3,21 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "gl-matrix": "^3.4.4"
+  },
   "devDependencies": {
-    "clean-webpack-plugin": "^0.1.17",
-    "css-loader": "^3.2.0",
-    "html-webpack-plugin": "^2.30.1",
-    "style-loader": "^1.0.0",
-    "ts-loader": "^3.1.1",
-    "typescript": "^2.6.1",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^3.1.11"
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open",
-    "build": "webpack"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
